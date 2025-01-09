@@ -13,11 +13,9 @@ typedef struct Todo {
     struct Todo* next;      
 } Todo;
 
-
 typedef struct LinkedList {
     Todo* head;              
 } LinkedList;
-
 
 void updateStatus(LinkedList *list);
 void initList(LinkedList* list);
@@ -34,6 +32,7 @@ int isValidTime(const char* time);
 int isDuplicateName(LinkedList* list, const char* name);
 void editTodo(LinkedList* list);
 void sortTodosByPrior(LinkedList* list);
+
 int main() {
     LinkedList list;
     initList(&list);
@@ -42,7 +41,6 @@ int main() {
     int choice;
     do {
         displayMenu();
-
         scanf("%d", &choice);
         getchar();  
         switch (choice) {
@@ -87,7 +85,6 @@ int main() {
     return 0;
 }
 
-
 void initList(LinkedList* list) {
     list->head = NULL;
 }
@@ -110,7 +107,6 @@ int generateRandomId(LinkedList* list) {
             current = current->next;
         }
     } while (!isUnique);
-
     return id;
 }
 
@@ -138,7 +134,7 @@ int addToPriority() {
         printf("2. Khong\n"); 
         printf("Nhap lua chon: ");
         scanf("%d", &priority);
-        getchar();  // Loai bo ky tu newline
+        getchar(); 
     } while (priority != 1 && priority != 2);
 
 
@@ -186,8 +182,7 @@ void addTodo(LinkedList* list) {
     }
 	
     if (addPriority == 1) {
-        // Nhap thu tu uu tien
-        printf("Nhap thu tu uu tien (1 la quan trong nhat, 2 la quan trong nhii, ...): ");
+        printf("Nhap thu tu uu tien (1 la quan trong nhat, 2 la quan trong nhi, ...): ");
         scanf("%d", &newTodo.priority);
         getchar();  
     } else {
@@ -362,7 +357,6 @@ void loadFromFile(LinkedList* list) {
 
     while (1) {
         Todo newTodo;
-       
         if (fscanf(file, "%d,%49[^,],%99[^,],%19[^,],%d,%d\n", &newTodo.id, newTodo.name, newTodo.description, newTodo.time, &newTodo.priority,&newTodo.status) != 6) {
             break;
         }
@@ -462,14 +456,13 @@ void editTodo(LinkedList* list) {
 }
 void sortTodosByPrior(LinkedList* list) {
     if (list->head == NULL || list->head->next == NULL) {
-        return; // Không c?n s?p x?p n?u danh sách r?ng ho?c ch? có 1 ph?n t?
+        return; 
     }
 
     Todo* current;
     Todo* nextNode;
     int swapped;
 
-    // Bubble sort d?a trên 'priority', uu tiên ph?n t? có priority khác 0
     do {
         swapped = 0;
         current = list->head;
@@ -477,25 +470,19 @@ void sortTodosByPrior(LinkedList* list) {
         while (current != NULL && current->next != NULL) {
             nextNode = current->next;
 
-            // Ði?u ki?n hoán d?i:
-            // 1. current->priority = 0, nextNode->priority != 0 (uu tiên khác 0 lên tru?c)
-            // 2. Ho?c c? hai d?u khác 0 nhung current->priority > nextNode->priority (s?p x?p tang d?n)
             if ((current->priority == 0 && nextNode->priority != 0) || 
                 (current->priority != 0 && nextNode->priority != 0 && current->priority > nextNode->priority)) {
 
-                // Hoán d?i d? li?u
                 int tempId = current->id;
                 char tempName[50], tempDescription[100], tempTime[20];
                 int tempPriority;
 
-                // Luu t?m th?i d? li?u
                 tempPriority = current->priority;
                 tempId = current->id;
                 strcpy(tempName, current->name);
                 strcpy(tempDescription, current->description);
                 strcpy(tempTime, current->time);
 
-                // Hoán d?i d? li?u
                 current->priority = nextNode->priority;
                 current->id = nextNode->id;
                 strcpy(current->name, nextNode->name);
@@ -508,11 +495,11 @@ void sortTodosByPrior(LinkedList* list) {
                 strcpy(nextNode->description, tempDescription);
                 strcpy(nextNode->time, tempTime);
 
-                swapped = 1; // Ðánh d?u dã hoán d?i
+                swapped = 1; 
             }
             current = current->next;
         }
-    } while (swapped); // L?p l?i d?n khi không còn hoán d?i nào
+    } while (swapped);
 }
 
 
